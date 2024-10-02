@@ -44,6 +44,7 @@ public class registroClientes {
         System.out.print("por favor ingrese el numero de cuenta del propietario de la cuenta");
         numCuenta = entrada.nextInt();
         cliente_uno.setNumCuenta(numCuenta);
+        System.out.print("");
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("gt.edu.miumg_proyect6_jar_1.0-SNAPSHOTPU");
         

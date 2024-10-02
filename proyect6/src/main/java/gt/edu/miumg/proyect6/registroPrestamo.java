@@ -34,6 +34,7 @@ public class registroPrestamo {
         System.out.print("El plazo de tiempo a pagar es el siguiente: ");
         variable2 = entrada.nextLine();
         ingresarPrestamo.setPlazo(variable2);
+        System.out.print("");
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("gt.edu.miumg_proyect6_jar_1.0-SNAPSHOTPU");
         
