@@ -53,4 +53,5 @@
         <maven.compiler.target>11</maven.compiler.target>
         <exec.mainClass>gt.edu.miumg.bancobdf.BANCOBDF</exec.mainClass>
     </properties>
+    <name>programa2_2024_grupo_1</name>
 </project>
