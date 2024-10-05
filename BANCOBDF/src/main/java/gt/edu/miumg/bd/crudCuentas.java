@@ -74,7 +74,7 @@ public class crudCuentas {
 
                         try {
                             em.getTransaction().begin();
-                            Query query = em.createQuery("SELECT c FROM CuentasNew c WHERE c.numCuenta = :numCuenta");
+                            Query query = em.createQuery("SELECT c FROM Cuentas c WHERE c.numCuenta = :numCuenta");
                             query.setParameter("numCuenta", numCuenta);
                             List<Cuentas> resultados = query.getResultList();
 
@@ -124,6 +124,7 @@ public class crudCuentas {
                             em.getTransaction().rollback(); // Hacer rollback si hay error
                             System.out.println("Ocurrió un error al intentar eliminar la cuenta.");
                         }
+
                         break;
 
                     case 4:
