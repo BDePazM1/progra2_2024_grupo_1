@@ -19,50 +19,48 @@ import java.util.Scanner;
  *
  * @author Freddy Elias
  */
-public class menus {
+public class menus{
+            
+                public static boolean menuUsuario(Scanner scanner2) {
+                    int opcion2 = 0;
 
-    public static void menuUsuarios() {
-        Scanner scanner = new Scanner(System.in);
-        int opcion = 0;
+                    do {
+                        System.out.println("Menú ----------------------------------------");
+                        System.out.println("1. Interactuar con Cuentas Bancarias---------");
+                        System.out.println("2. Interactuar con Tarjetas: crédito o débito");
+                        System.out.println("3. Realizar una transacción------------------");
+                        System.out.println("4. Regresar al Menú Principal----------------");
+                        System.out.println("Selecciona una opción:");
 
-        do {
-            System.out.println("----- Menú -----");
-            System.out.println("1. Interactuar con Cuentas Bancarias");
-            System.out.println("2. Interactuar con Tarjetas: credito o debito");
-            System.out.println("3. Realizar una transaccion");
-            System.out.println("4. Salir");
-            System.out.print("Selecciona una opción: ");
-
-            try {
-                opcion = scanner.nextInt();
-
-                switch (opcion) {
-                    case 1:
-                        System.out.println("Has seleccionado la Opción 1.");
-                        creacionCuentas();
-                        break;
-                    case 2:
-                        System.out.println("Has seleccionado la Opción 2.");
-                        mostrarMenuTarjetas();
-                        break;
-                    case 3:
-                        System.out.println("Has seleccionado la Opción 3.");
-                        traspasoDinero();
-                        break;
-                    case 4:
-                        System.out.println("Vuelva pronto");
-                        break;
+                        try {
+                            opcion2 = scanner2.nextInt();
+                            switch (opcion2) {
+                                case 1:
+                                    System.out.println("Has seleccionado la Opción 1.");
+                                    creacionCuentas();
+                                    break;
+                                case 2:
+                                    System.out.println("Has seleccionado la Opción 2.");
+                                    mostrarMenuTarjetas();
+                                    break;
+                                case 3:
+                                    System.out.println("Has seleccionado la Opción 3.");
+                                    traspasoDinero();
+                                    break;
+                                case 4:
+                                    System.out.println("Regresando al menú principal...");
+                                    return true; 
+                                default:
+                                    System.out.println("Opción no válida. Intenta de nuevo.");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Error: Debes ingresar un número válido.");
+                            scanner2.next(); 
+                        }
+                    } while (true); 
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Debes ingresar un número válido.");
-                scanner.next();
-            }
-        } while (opcion != 4);
 
-        scanner.close();
-
-    }
-
+    
     public static void menuDirectiva() {
         Scanner scanner = new Scanner(System.in);
         int opcion = 0;

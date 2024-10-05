@@ -1,7 +1,7 @@
 package gt.edu.miumg.bancobdf;
 
+import gt.edu.miumg.bd.menus;
 import static gt.edu.miumg.bd.menus.menuDirectiva;
-import static gt.edu.miumg.bd.menus.menuUsuarios;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,13 +12,13 @@ import java.util.Scanner;
 
 public class BANCOBDF {
     public static void main(String[] args) {
-
-        int opcionM = 0;
+        
+        Scanner scanner1 = new Scanner(System.in);
+        int opcion1 = 0;
 
         do {
-            Scanner scannerM = new Scanner(System.in);
             
-            System.out.println("----- Menú -----------");
+            System.out.println("Menú------------------");
             System.out.println("1. Menu de Usuarios---");
             System.out.println("2. Menu de Directiva--");
             System.out.println("3. Salir--------------");
@@ -26,12 +26,18 @@ public class BANCOBDF {
 
             try {
                 
-                opcionM = scannerM.nextInt();
+                opcion1 = scanner1.nextInt();
                 
-                switch (opcionM) {
+                switch (opcion1) {
                     case 1:
                         System.out.println("Has seleccionado la Opción 1.");
-                        menuUsuarios();
+                        boolean volverAlMenuPrincipal;
+                        
+                        do {
+                            
+                            volverAlMenuPrincipal = menus.menuUsuario(scanner1);
+                        } while (!volverAlMenuPrincipal);
+
                         break;
                     case 2:
                         System.out.println("Has seleccionado la Opción 2.");
@@ -43,9 +49,9 @@ public class BANCOBDF {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Error: Debes ingresar un número válido.");
-                scannerM.next(); 
+                scanner1.next(); 
             }
-        } while (opcionM != 3);
+        } while (opcion1 != 3);
 
 
 
