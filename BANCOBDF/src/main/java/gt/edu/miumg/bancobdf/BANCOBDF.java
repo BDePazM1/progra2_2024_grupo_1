@@ -1,4 +1,3 @@
-
 package gt.edu.miumg.bancobdf;
 
 import static gt.edu.miumg.bd.menus.menuDirectiva;
