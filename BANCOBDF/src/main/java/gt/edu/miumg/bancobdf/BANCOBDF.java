@@ -1,7 +1,6 @@
 package gt.edu.miumg.bancobdf;
 
 import gt.edu.miumg.bd.menus;
-import static gt.edu.miumg.bd.menus.menuDirectiva;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -31,18 +30,24 @@ public class BANCOBDF {
                 switch (opcion1) {
                     case 1:
                         System.out.println("Has seleccionado la Opción 1.");
-                        boolean volverAlMenuPrincipal;
-                        
+                        boolean volverAlMenuUsuarios;
                         do {
-                            
-                            volverAlMenuPrincipal = menus.menuUsuario(scanner1);
-                        } while (!volverAlMenuPrincipal);
+                            volverAlMenuUsuarios = menus.menuUsuario(scanner1);
+                        } while (!volverAlMenuUsuarios);
 
                         break;
+                        
                     case 2:
+                        
                         System.out.println("Has seleccionado la Opción 2.");
-                        menuDirectiva();
+                        boolean volverAlMenuDirectiva;
+                        do {
+                            volverAlMenuDirectiva = menus.menuDirectiva(scanner1);
+                        } while (!volverAlMenuDirectiva);
+                        
                         break;
+                        
+                        
                     case 3:
                         System.out.println("Que tengas un Buen Día");
                         break;

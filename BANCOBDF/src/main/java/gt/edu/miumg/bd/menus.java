@@ -61,79 +61,90 @@ public class menus{
                 }
 
     
-    public static void menuDirectiva() {
-        Scanner scanner = new Scanner(System.in);
-        int opcion = 0;
+                public static boolean menuDirectiva(Scanner scanner3) {
+                    int opcion3 = 0;
 
-        do {
-            System.out.println("----- Menú -----");
-            System.out.println("1. Interactuar con Cuentas Tabla Clientes");
-            System.out.println("2. Interactuar con Prestamos");
-            System.out.print("Selecciona una opción: ");
+                    do {
+                        System.out.println("Menú-------------------------------------");
+                        System.out.println("1. Interactuar con Cuentas Tabla Clientes");
+                        System.out.println("2. Interactuar con Préstamos-------------");
+                        System.out.println("3. Salir---------------------------------");
+                        System.out.println("Selecciona una opción: ");
 
-            try {
-                opcion = scanner.nextInt();
+                        try {
+                            opcion3 = scanner3.nextInt();
 
-                switch (opcion) {
-                    case 1:
-                        System.out.println("Has seleccionado la Opción 1.");
-                        do {
-                            System.out.println("----- Menú -----");
-                            System.out.println("1. Crear un nuevo usuario");
-                            System.out.println("2. Mostrar los datos ingresados");
-                            System.out.println("3. Para editar datos");
-                            System.out.println("4. Para eliminar datos");
-                            System.out.println("5. Salir");
-                            System.out.print("Selecciona una opción: ");
-
-                            try {
-                                opcion = scanner.nextInt();
-
-                                switch (opcion) {
-                                    case 1:
-                                        System.out.println("Has seleccionado la Opción 1.");
-                                        registrarClientes();
-                                        break;
-                                    case 2:
-                                        System.out.println("Has seleccionado la Opción 2.");
-                                        mostrarInformacion();
-                                        break;
-                                    case 3:
-                                        System.out.println("Has seleccionado la Opción 3.");
-                                        editarInformacion();
-                                        break;
-                                    case 4:
-                                        System.out.println("Has seleccionado la Opción 4.");
-                                        eliminarInformacion();
-                                        break;
-                                    case 5:
-                                        System.out.println("Vuelva pronto");
-                                        break;
-                                }
-                            } catch (InputMismatchException e) {
-                                System.out.println("Error: Debes ingresar un número válido.");
-                                scanner.next();
+                            switch (opcion3) {
+                                case 1:
+                                    
+                                    System.out.println("Has seleccionado la Opción 1.");
+                                    boolean volverAlMenuDirectiva;
+                                    do {
+                                        volverAlMenuDirectiva = menuClientes(scanner3);
+                                    } while (!volverAlMenuDirectiva);
+                                    
+                                    break;
+                                case 2:
+                                    System.out.println("Has seleccionado la Opción 2.");
+                                    System.out.println("Préstamos");
+                                    agregacionDinero();
+                                    break;
+                                case 3:
+                                    System.out.println("Vuelva pronto");
+                                    return true; 
+                                default:
+                                    System.out.println("Opción no válida. Intenta de nuevo.");
                             }
-                        } while (opcion != 5);
-
-                        scanner.close();
-                        break;
-                    case 2:
-                        System.out.println("Has seleccionado la Opción 2.");
-                        System.out.println("Prestamos");
-                        agregacionDinero();
-                        break;
-                    case 3:
-                        System.out.println("Vuelva pronto");
-                        break;
+                        } catch (InputMismatchException e) {
+                            System.out.println("Error: Debes ingresar un número válido.");
+                            scanner3.next(); 
+                        }
+                    } while (true); 
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Debes ingresar un número válido.");
-                scanner.next();
-            }
-        } while (opcion != 3);
 
-        scanner.close();
 
-    }
+                private static boolean menuClientes(Scanner scanner4) {
+                    int opcion4 = 0;
+
+                    do {
+                        System.out.println("Menú---------------------------");
+                        System.out.println("1. Crear un nuevo usuario------");
+                        System.out.println("2. Mostrar los datos ingresados");
+                        System.out.println("3. Para editar datos-----------");
+                        System.out.println("4. Para eliminar datos---------");
+                        System.out.println("5. Salir-----------------------");
+                        System.out.print("Selecciona una opción:");
+
+                        try {
+                            opcion4 = scanner4.nextInt();
+
+                            switch (opcion4) {
+                                case 1:
+                                    System.out.println("Has seleccionado la Opción 1.");
+                                    registrarClientes();
+                                    break;
+                                case 2:
+                                    System.out.println("Has seleccionado la Opción 2.");
+                                    mostrarInformacion();
+                                    break;
+                                case 3:
+                                    System.out.println("Has seleccionado la Opción 3.");
+                                    editarInformacion();
+                                    break;
+                                case 4:
+                                    System.out.println("Has seleccionado la Opción 4.");
+                                    eliminarInformacion();
+                                    break;
+                                case 5:
+                                    System.out.println("Regresando al menú de directiva...");
+                                    return false;
+                                default:
+                                    System.out.println("Opción no válida. Intenta de nuevo.");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Error: Debes ingresar un número válido.");
+                            scanner4.next();
+                        }
+                    } while (true);
+                }
 }
