@@ -5,6 +5,7 @@
 package gt.edu.miumg.bd;
 import gt.edu.miumg.bancobdf.Cuentas;
 import gt.edu.miumg.bancobdf.CuentasJpaController;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
@@ -42,16 +43,50 @@ public class crudCuentas {
                 switch (texFase) {
 
                     case 1:
-                        System.out.println("Ingrese su numero de cuenta");
-                        numCuenta = s.nextInt();
-                        ingresoCuenta.setNumCuenta(numCuenta);
-                        s.nextLine();
-                        System.out.println("Ingrese su tipo de cuenta");
-                        tipoCuenta = s.nextLine();
-                        ingresoCuenta.setTipoCuenta(tipoCuenta);
-                        System.out.println("Ingrese su saldo actual");
-                        saldo = s.nextDouble();
-                        ingresoCuenta.setSaldo(saldo);
+                        
+                        do {
+                            System.out.println("Ingrese su número de cuenta:");
+
+                            try {
+                                numCuenta = s.nextInt();
+                                ingresoCuenta.setNumCuenta(numCuenta);
+                                s.nextLine();
+                                break;
+                                
+                            } catch (InputMismatchException e) {
+                                System.out.println("Entrada inválida. Debe ingresar una serie de número enteros.");
+                                s.nextLine();
+                            }
+                        } while (true);
+     
+                        do {
+                            System.out.println("Ingrese su tipo de cuenta (Ahorro o Monetario):");
+                            tipoCuenta = s.nextLine().trim();
+
+                            if (tipoCuenta.equalsIgnoreCase("Ahorro") || tipoCuenta.equalsIgnoreCase("Monetario")) {
+                                ingresoCuenta.setTipoCuenta(tipoCuenta);
+                                break;
+                                
+                            } else {
+                                System.out.println("Entrada inválida. Debe ser 'Ahorro' o 'Monetario'. Intente de nuevo.");
+                            }
+                        } while (true);
+
+                        
+                        do {
+                            System.out.println("Ingrese su saldo actual:");
+
+                            try {
+                                saldo = s.nextDouble();
+                                ingresoCuenta.setSaldo(saldo);
+                                s.nextLine();
+                                break; 
+                                
+                            } catch (InputMismatchException e) {
+                                System.out.println("Entrada inválida. Debe ingresar un número decimal (saldo).");
+                                s.nextLine();
+                            }
+                        } while (true);
 
                         System.out.println("Los datos ingresados:  " + ingresoCuenta.getNumCuenta() + ingresoCuenta.getTipoCuenta() + ingresoCuenta.getSaldo());
 
