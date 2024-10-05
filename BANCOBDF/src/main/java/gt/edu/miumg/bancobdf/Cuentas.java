@@ -17,12 +17,13 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Freddy Elias
+ * @author byron
  */
 @Entity
 @Table(name = "Cuentas", catalog = "BANCOBDF", schema = "dbo")
 @NamedQueries({
     @NamedQuery(name = "Cuentas.findAll", query = "SELECT c FROM Cuentas c"),
+    @NamedQuery(name = "Cuentas.findByIdCuenta", query = "SELECT c FROM Cuentas c WHERE c.idCuenta = :idCuenta"),
     @NamedQuery(name = "Cuentas.findByNumCuenta", query = "SELECT c FROM Cuentas c WHERE c.numCuenta = :numCuenta"),
     @NamedQuery(name = "Cuentas.findByTipoCuenta", query = "SELECT c FROM Cuentas c WHERE c.tipoCuenta = :tipoCuenta"),
     @NamedQuery(name = "Cuentas.findBySaldo", query = "SELECT c FROM Cuentas c WHERE c.saldo = :saldo")})
@@ -32,26 +33,29 @@ public class Cuentas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "num_Cuenta", nullable = false)
+    @Column(name = "id_Cuenta", nullable = false)
+    private Integer idCuenta;
+    @Column(name = "num_Cuenta")
     private Integer numCuenta;
-    @Basic(optional = false)
-    @Column(name = "tipo_Cuenta", nullable = false, length = 100)
+    @Column(name = "tipo_Cuenta", length = 40)
     private String tipoCuenta;
-    @Basic(optional = false)
-    @Column(name = "saldo", nullable = false)
-    private double saldo;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "Saldo", precision = 53)
+    private Double saldo;
 
     public Cuentas() {
     }
 
-    public Cuentas(Integer numCuenta) {
-        this.numCuenta = numCuenta;
+    public Cuentas(Integer idCuenta) {
+        this.idCuenta = idCuenta;
     }
 
-    public Cuentas(Integer numCuenta, String tipoCuenta, double saldo) {
-        this.numCuenta = numCuenta;
-        this.tipoCuenta = tipoCuenta;
-        this.saldo = saldo;
+    public Integer getIdCuenta() {
+        return idCuenta;
+    }
+
+    public void setIdCuenta(Integer idCuenta) {
+        this.idCuenta = idCuenta;
     }
 
     public Integer getNumCuenta() {
@@ -70,18 +74,18 @@ public class Cuentas implements Serializable {
         this.tipoCuenta = tipoCuenta;
     }
 
-    public double getSaldo() {
+    public Double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (numCuenta != null ? numCuenta.hashCode() : 0);
+        hash += (idCuenta != null ? idCuenta.hashCode() : 0);
         return hash;
     }
 
@@ -92,7 +96,7 @@ public class Cuentas implements Serializable {
             return false;
         }
         Cuentas other = (Cuentas) object;
-        if ((this.numCuenta == null && other.numCuenta != null) || (this.numCuenta != null && !this.numCuenta.equals(other.numCuenta))) {
+        if ((this.idCuenta == null && other.idCuenta != null) || (this.idCuenta != null && !this.idCuenta.equals(other.idCuenta))) {
             return false;
         }
         return true;
@@ -100,7 +104,7 @@ public class Cuentas implements Serializable {
 
     @Override
     public String toString() {
-        return "gt.edu.miumg.bancobdf.Cuentas[ numCuenta=" + numCuenta + " ]";
+        return "gt.edu.miumg.bancobdf.Cuentas[ idCuenta=" + idCuenta + " ]";
     }
     
 }
