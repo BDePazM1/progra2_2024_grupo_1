@@ -4,7 +4,6 @@
  */
 package gt.edu.miumg.bd;
 import gt.edu.miumg.bancobdf.Cuentas;
-import gt.edu.miumg.bancobdf.CuentasJpaController;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +18,7 @@ import javax.persistence.Query;
 public class crudCuentas {
         public static boolean creacionCuentas() {
            Cuentas ingresoCuenta = new Cuentas();
-           boolean regresarMenu = false; // Variable para controlar el retorno
+           boolean regresarMenu = false;
 
            Scanner s = new Scanner(System.in);
            EntityManagerFactory emf = Persistence.createEntityManagerFactory("gt.edu.miumg_BANCOBDF_jar_1.0-SNAPSHOTPU");
@@ -41,7 +40,7 @@ public class crudCuentas {
 
                switch (texFase) {
                    case 1:
-                       // Lógica para crear cuenta
+                      
                        do {
                            System.out.println("Ingrese su número de cuenta:");
                            try {

@@ -8,10 +8,8 @@ import static gt.edu.miumg.bd.crudClientes.editarInformacion;
 import static gt.edu.miumg.bd.crudClientes.eliminarInformacion;
 import static gt.edu.miumg.bd.crudClientes.mostrarInformacion;
 import static gt.edu.miumg.bd.crudClientes.registrarClientes;
-import static gt.edu.miumg.bd.crudCuentas.creacionCuentas;
 import static gt.edu.miumg.bd.crudPrestamo.agregacionDinero;
 import static gt.edu.miumg.bd.crudTransaccion.traspasoDinero;
-import static gt.edu.miumg.bd.resp.mostrarMenuTarjetas;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -41,7 +39,7 @@ public class menus{
                                     break;
                                 case 2:
                                     System.out.println("Has seleccionado la Opción 2.");
-                                    mostrarMenuTarjetas();
+                                    boolean volverAlMenu2 = crudTarjetas.creacionTarjetas();
                                     break;
                                 case 3:
                                     System.out.println("Has seleccionado la Opción 3.");
