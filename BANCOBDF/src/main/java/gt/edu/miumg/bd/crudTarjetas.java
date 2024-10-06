@@ -4,6 +4,7 @@
  */
 package gt.edu.miumg.bd;
 
+import gt.edu.miumg.bancobdf.Cuentas;
 import gt.edu.miumg.bancobdf.Tarjetas;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -35,7 +36,8 @@ public class crudTarjetas {
                System.out.println("MENU DE TARJETA--------------------------------");
                System.out.println("1.Si desea Registrar una Tarjeta---------------");
                System.out.println("2.Si desea consultar Su Tarjeta----------------");
-               System.out.println("3.Si desea salir presione----------------------");
+               System.out.println("3.Si desea Eliminar el Registro de tarjeta-----");               
+               System.out.println("4.Si desea salir presione----------------------");
                System.out.println("-----------------------------------------------");
                int texFase = s.nextInt();
 
@@ -110,7 +112,7 @@ public class crudTarjetas {
                                for (Tarjetas cuenta : resultados) {
                                    System.out.println("Número de Cuenta: " + cuenta.getNumTarjeta());
                                    System.out.println("Tipo de Cuenta: " + cuenta.getTipoTarjeta());
-                                   System.out.println("Saldo Actual: " + cuenta.getCvv());
+                                   System.out.println("Su Cvv es: " + cuenta.getCvv());
                                }
                            } else {
                                System.out.println("No se encontró información para el número de Tarjeta ingresado.");
@@ -125,6 +127,38 @@ public class crudTarjetas {
                        break;
 
                    case 3:
+                       System.out.println("Ingrese el número de la Tarjeta que desea eliminar:");
+                       numTarjeta = s.nextInt();
+                       try {
+                           Query query = em.createQuery("SELECT c FROM Tarjetas c WHERE c.numTarjeta = :numTarjeta");
+                           query.setParameter("numTarjeta", numTarjeta);
+                           List<Tarjetas> cuentasEncontradas = query.getResultList();
+
+                           if (!cuentasEncontradas.isEmpty()) {
+                               Tarjetas cuentaAEliminar = cuentasEncontradas.get(0);
+                               int idTarjeta = cuentaAEliminar.getIdTarjeta();
+
+                               em.getTransaction().begin(); 
+                               Tarjetas cuentaGestionada = em.find(Tarjetas.class, idTarjeta);
+                               if (cuentaGestionada != null) {
+                                   em.remove(cuentaGestionada);
+                                   em.getTransaction().commit();
+                                   System.out.println("La cuenta con número " + numTarjeta + " ha sido eliminada.");
+                               } else {
+                                   System.out.println("No se encontró la Tarjeta con id: " + idTarjeta);
+                               }
+                           } else {
+                               System.out.println("No se encontró ninguna Tarjeta con el número: " + numTarjeta);
+                           }
+                       } catch (Exception e) {
+                           if (em.getTransaction().isActive()) {
+                               em.getTransaction().rollback();
+                           }
+                           System.out.println("Ocurrió un error al intentar eliminar la Tarjeta: " + e.getMessage());
+                       }
+                       break;
+                       
+                   case 4:
                       
                        System.out.println("¡Que tenga buen día!");
                        regresarMenuT = true; 
