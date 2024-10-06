@@ -37,7 +37,7 @@ public class menus{
                             switch (opcion2) {
                                 case 1:
                                     System.out.println("Has seleccionado la Opción 1.");
-                                    creacionCuentas();
+                                    boolean volverAlMenu = crudCuentas.creacionCuentas();
                                     break;
                                 case 2:
                                     System.out.println("Has seleccionado la Opción 2.");
