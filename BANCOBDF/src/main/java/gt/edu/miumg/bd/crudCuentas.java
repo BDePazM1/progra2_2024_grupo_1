@@ -133,44 +133,59 @@ public class crudCuentas {
                         em.close();
                         emf.close();
                         break;
+                        
+                        
                     case 3:
-
-                        System.out.println("Ingrese el número de cuenta que desea eliminar");
+                        
+                        System.out.println("Ingrese el número de cuenta que desea eliminar:");
                         numCuenta = s.nextInt();
 
                         CuentasJpaController ac = new CuentasJpaController(emf);
 
                         try {
+                           
+                            Query query = em.createQuery("SELECT c FROM Cuentas c WHERE c.numCuenta = :numCuenta");
+                            query.setParameter("numCuenta", numCuenta);
+                            List<Cuentas> cuentasEncontradas = query.getResultList();
 
-                            Cuentas cuentaAEliminar = ac.findCuentas(numCuenta);
+                            if (!cuentasEncontradas.isEmpty()) {
+                          
+                                Cuentas cuentaAEliminar = cuentasEncontradas.get(0);
+                                int idCuenta = cuentaAEliminar.getIdCuenta(); 
 
-                            if (cuentaAEliminar != null) {
-                                em.getTransaction().begin(); // Iniciar la transacción
-
-                                Cuentas cuentaGestionada = em.merge(cuentaAEliminar);
-
-                                em.remove(cuentaGestionada);
-                                em.getTransaction().commit(); // Confirmar la transacción
-                                System.out.println("La cuenta con número " + numCuenta + " ha sido eliminada.");
+                                em.getTransaction().begin(); 
+                                Cuentas cuentaGestionada = em.find(Cuentas.class, idCuenta); 
+                                if (cuentaGestionada != null) {
+                                    em.remove(cuentaGestionada); 
+                                    em.getTransaction().commit(); 
+                                    System.out.println("La cuenta con número " + numCuenta + " ha sido eliminada.");
+                                } else {
+                                    System.out.println("No se encontró la cuenta con id: " + idCuenta);
+                                }
                             } else {
                                 System.out.println("No se encontró ninguna cuenta con el número: " + numCuenta);
                             }
                         } catch (Exception e) {
-                            em.getTransaction().rollback(); // Hacer rollback si hay error
-                            System.out.println("Ocurrió un error al intentar eliminar la cuenta.");
+                            if (em.getTransaction().isActive()) {
+                                em.getTransaction().rollback(); 
+                            }
+                            System.out.println("Ocurrió un error al intentar eliminar la cuenta: " + e.getMessage());
                         }
-
                         break;
+
+
 
                     case 4:
-                        System.out.println("¡Que tenga buen día!");
-                        break;
-
-                }
-
-            } while (texFase == 1 || texFase == 2 || texFase == 3 || texFase > 4 || texFase < 1);
+                            System.out.println("¡Que tenga buen día!");
+                            em.close();
+                            return;
+                            default:
+                            System.out.println("Opción no válida. Intente de nuevo.");
+                    }
+                } while (true);
+            }
 
         }
     }
 
-}
+
