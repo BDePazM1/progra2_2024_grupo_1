@@ -55,6 +55,29 @@ public class CuentasJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
+                Integer numCuenta = cuentas.getNumCuenta();
+                if (findCuentas(numCuenta) == null) {
+                    throw new NonexistentEntityException("The cuentas with numCuenta " + numCuenta + " no longer exists.");
+                }
+            }
+            throw ex;
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+    
+    /*public void edit(Cuentas cuentas) throws NonexistentEntityException, Exception {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            cuentas = em.merge(cuentas);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            String msg = ex.getLocalizedMessage();
+            if (msg == null || msg.length() == 0) {
                 Integer id = cuentas.getNumCuenta();
                 if (findCuentas(id) == null) {
                     throw new NonexistentEntityException("The cuentas with id " + id + " no longer exists.");
@@ -66,9 +89,30 @@ public class CuentasJpaController implements Serializable {
                 em.close();
             }
         }
-    }
+    }*/
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer numCuenta) throws NonexistentEntityException {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            Cuentas cuentas;
+            try {
+                cuentas = em.getReference(Cuentas.class, numCuenta);
+                cuentas.getNumCuenta();
+            } catch (EntityNotFoundException enfe) {
+                throw new NonexistentEntityException("The cuentas with id " + numCuenta + " no longer exists.", enfe);
+            }
+            em.remove(cuentas);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+    
+    /*public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -87,7 +131,7 @@ public class CuentasJpaController implements Serializable {
                 em.close();
             }
         }
-    }
+    }*/
 
     public List<Cuentas> findCuentasEntities() {
         return findCuentasEntities(true, -1, -1);
@@ -113,10 +157,19 @@ public class CuentasJpaController implements Serializable {
         }
     }
 
-    public Cuentas findCuentas(Integer id) {
+    /*public Cuentas findCuentas(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Cuentas.class, id);
+        } finally {
+            em.close();
+        }
+    }*/
+
+    public Cuentas findCuentas(Integer numCuenta) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(Cuentas.class, numCuenta);
         } finally {
             em.close();
         }

@@ -46,6 +46,10 @@ public class Cuentas implements Serializable {
     public Cuentas() {
     }
 
+    /*public Cuentas(Integer idCuenta) {
+        this.idCuenta = idCuenta;
+    }*/
+    
     public Cuentas(Integer idCuenta) {
         this.idCuenta = idCuenta;
     }
@@ -82,6 +86,32 @@ public class Cuentas implements Serializable {
         this.saldo = saldo;
     }
 
+    /*@Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idCuenta != null ? idCuenta.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Cuentas)) {
+            return false;
+        }
+        Cuentas other = (Cuentas) object;
+        if ((this.idCuenta == null && other.idCuenta != null) || (this.idCuenta != null && !this.idCuenta.equals(other.idCuenta))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "gt.edu.miumg.bancobdf.Cuentas[ idCuenta=" + idCuenta + " ]";
+    }
+ */   
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -108,3 +138,6 @@ public class Cuentas implements Serializable {
     }
     
 }
+
+
+

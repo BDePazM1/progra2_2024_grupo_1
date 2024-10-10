@@ -7,10 +7,12 @@ package gt.edu.miumg.bd;
 import gt.edu.miumg.bancobdf.Cuentas;
 import gt.edu.miumg.bancobdf.CuentasJpaController;
 import gt.edu.miumg.bancobdf.Transacciones;
+import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -31,17 +33,20 @@ public class crudTransaccion {
 
         System.out.println("Ingrese su número de cuenta:");
         numCuenta = s.nextInt();
+        
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT c FROM Cuentas c WHERE c.numCuenta = :numCuenta");
+        query.setParameter("numCuenta", numCuenta);
 
-        CuentasJpaController cuentaController = new CuentasJpaController(emf);
+        /*CuentasJpaController cuentaController = new CuentasJpaController(emf);
         Integer numCuentas = null;
-        Cuentas cuentaExistente = cuentaController.findCuentas(numCuentas);
-
-        if (cuentaExistente == null) {
-            System.out.println("No se encontró ninguna cuenta con el número ingresado.");
-            return; 
-        }
-
-        System.out.println("Su saldo actual es: " + cuentaExistente.getSaldo());
+        Cuentas cuentaExistente = cuentaController.findCuentas(numCuenta);*/
+        List<Cuentas> resultados = query.getResultList();
+        
+        if (!resultados.isEmpty()){
+            System.out.println("Cuenta encontrada.");
+            
+            System.out.println("Su saldo actual es: " + ingresoCuenta.getSaldo());
 
         System.out.println("Ingrese el monto que desea retirar, transferir o depositar:");
         monto = s.nextDouble();
@@ -52,7 +57,8 @@ public class crudTransaccion {
         tipo = s.nextLine();
         ingresarTransaccion.setTipoTransaccion(tipo);
 
-        double saldoActual = cuentaExistente.getSaldo();
+        double saldoActual = ingresoCuenta.getSaldo();
+        
         switch (tipo.toLowerCase()) {
             case "retiro":
                 if (monto > saldoActual) {
@@ -66,18 +72,18 @@ public class crudTransaccion {
             case "transferencia":
                 System.out.println("Ingrese el número de cuenta de destino:");
                 int numCuentaDestino = s.nextInt();
-                Cuentas cuentaDestino = cuentaController.findCuentas(numCuentaDestino);
+                /*Cuentas cuentaDestino = cuentaController.findCuentas(numCuentaDestino);*/
 
-                if (cuentaDestino != null && monto <= saldoActual) {
+                if (ingresoCuenta != null && monto <= saldoActual) {
                     saldoActual -= monto;
-                    double saldoDestino = cuentaDestino.getSaldo() + monto;
+                    double saldoDestino = ingresoCuenta.getSaldo() + monto;
 
                     System.out.println("Transferencia exitosa. Su nuevo saldo es: " + saldoActual);
                     System.out.println("Saldo de la cuenta destino: " + saldoDestino);
 
-                    cuentaDestino.setSaldo(saldoDestino);
+                    ingresoCuenta.setSaldo(saldoDestino);
                     em.getTransaction().begin();
-                    em.merge(cuentaDestino);
+                    em.merge(ingresoCuenta);
                     em.getTransaction().commit();
 
                 } else {
@@ -88,22 +94,22 @@ public class crudTransaccion {
             case "deposito":
                 System.out.println("Ingrese el número de cuenta destino para realizar el depósito:");
                 numCuentaDestino = s.nextInt();
-                Cuentas cuentaDestinoDeposito = cuentaController.findCuentas(numCuentaDestino);
+                //Cuentas cuentaDestinoDeposito = cuentaController.findCuentas(numCuentaDestino);
 
-                if (cuentaDestinoDeposito != null && monto <= saldoActual) {
+                if (ingresoCuenta != null && monto <= saldoActual) {
 
                     saldoActual -= monto;
 
-                    double saldoDestinoDeposito = cuentaDestinoDeposito.getSaldo() + monto;
+                    double saldoDestinoDeposito = ingresoCuenta.getSaldo() + monto;
 
                     System.out.println("Depósito exitoso. Su nuevo saldo es: " + saldoActual);
                     System.out.println("Saldo de la cuenta destino: " + saldoDestinoDeposito);
 
-                    cuentaDestinoDeposito.setSaldo(saldoDestinoDeposito);
+                    ingresoCuenta.setSaldo(saldoDestinoDeposito);
 
                     em.getTransaction().begin();
-                    em.merge(cuentaDestinoDeposito);  
-                    em.merge(cuentaExistente);        
+                    em.merge(ingresoCuenta);  
+                    em.merge(ingresoCuenta);        
                     em.persist(ingresarTransaccion);  
                     em.getTransaction().commit();
                 } else {
@@ -115,11 +121,11 @@ public class crudTransaccion {
                 System.out.println("Operación no reconocida.");
                 return;
         }
-
+        
         try {
-            cuentaExistente.setSaldo(saldoActual);
+            ingresoCuenta.setSaldo(saldoActual);
             em.getTransaction().begin();
-            em.merge(cuentaExistente);
+            em.merge(ingresoCuenta);
             em.persist(ingresarTransaccion);
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -130,5 +136,23 @@ public class crudTransaccion {
         }
 
         System.out.println("Transacción realizada con éxito.");
+    
+            
+        } else { 
+            System.out.println("No se encontró la cuenta con el número ingresado.");
+            return;
+            }
     }
+        
+        
+
+        /*if (cuentaExistente == null) {
+            System.out.println("No se encontró ninguna cuenta con el número ingresado.");
+            return; 
+        }*/
+
+        
+        
+
+        
 }
