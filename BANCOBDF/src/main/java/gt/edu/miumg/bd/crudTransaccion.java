@@ -33,7 +33,8 @@ public class crudTransaccion {
         numCuenta = s.nextInt();
 
         CuentasJpaController cuentaController = new CuentasJpaController(emf);
-        Cuentas cuentaExistente = cuentaController.findCuentas(numCuenta);
+        Integer numCuentas = null;
+        Cuentas cuentaExistente = cuentaController.findCuentas(numCuentas);
 
         if (cuentaExistente == null) {
             System.out.println("No se encontró ninguna cuenta con el número ingresado.");

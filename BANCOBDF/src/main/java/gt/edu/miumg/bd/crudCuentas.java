@@ -78,8 +78,10 @@ public class crudCuentas {
                            }
                        } while (true);
 
-                       System.out.println("Los datos ingresados: " + ingresoCuenta.getNumCuenta() + " " + ingresoCuenta.getTipoCuenta() + " " + ingresoCuenta.getSaldo());
-
+                       System.out.println("Los datos ingresados: ");
+                       System.out.println("Numero de cuenta:" + ingresoCuenta.getNumCuenta());
+                       System.out.println("Tipo de cuenta:" + ingresoCuenta.getTipoCuenta());
+                       System.out.println("Saldo disponible:" + ingresoCuenta.getSaldo());
                        try {
                            em.getTransaction().begin();
                            em.persist(ingresoCuenta);

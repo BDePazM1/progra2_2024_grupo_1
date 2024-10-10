@@ -20,6 +20,8 @@ import javax.persistence.criteria.Root;
  */
 public class CuentasJpaController implements Serializable {
 
+    public Cuentas findCuentas;
+
     public CuentasJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
