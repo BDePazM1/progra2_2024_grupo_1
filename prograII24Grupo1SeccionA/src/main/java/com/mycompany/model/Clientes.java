@@ -32,7 +32,7 @@ public class Clientes implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "Dni", nullable = false)
-    private Integer dni;
+    private long dni;
     @Size(max = 50)
     @Column(name = "Nombre", length = 50)
     private String nombre;
@@ -57,11 +57,11 @@ public class Clientes implements Serializable {
         this.telefono = telefono;
     }
 
-    public Integer getDni() {
+    public long getDni() {
         return dni;
     }
 
-    public void setDni(Integer dni) {
+    public void setDni(long dni) {
         this.dni = dni;
     }
 

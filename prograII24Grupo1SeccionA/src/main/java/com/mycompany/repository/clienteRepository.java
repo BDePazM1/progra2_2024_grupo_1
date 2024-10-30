@@ -16,18 +16,25 @@ import javax.transaction.Transactional;
  * @author Freddy Elias
  */
 @RequestScoped
-public class clienteRepository implements PanacheRepository<Clientes>{
+public class clienteRepository implements PanacheRepository<Clientes> {
+
     @Transactional
-    public void crate(Clientes nuevoCliente){
+    public void crate(Clientes nuevoCliente) {
         this.persist(nuevoCliente);
     }
-    public List<Clientes> findClientes(){
-        try{
+
+    public List<Clientes> findClientes() {
+        try {
             Query q = getEntityManager().createQuery("SELECT C FROM Clientes C order by C.dni");
-        return q.getResultList();
-        }catch (Exception e){
-            System.out.println("e-> "+e);
-           return null; 
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.println("e-> " + e);
+            return null;
         }
+    }
+
+    @Transactional
+    public void updateCliente(Clientes cliente) {
+        this.getEntityManager().merge(cliente);  // Utiliza merge para actualizar la entidad en la base de datos
     }
 }
